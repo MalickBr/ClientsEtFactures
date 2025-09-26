@@ -9,9 +9,15 @@ public class Client
 	 * Crée un client.
 	 * @param nom le nom du client. 
 	 */
-	
+    private String nom;
+    private List<Facture> factures;
+    private static List<Client> clients = new ArrayList<>();
+
 	public Client(String nom)
 	{
+		this.nom = nom;
+		this.factures = new ArrayList<>();
+		clients.add(this);
 	}
 
 	/**
@@ -21,7 +27,8 @@ public class Client
 	
 	public String getNom()
 	{
-		return null;
+		return nom;
+	}
 	}
 	
 	/**
@@ -31,6 +38,7 @@ public class Client
 	
 	public void setNom(String nom)
 	{
+		this.nom = nom;
 	}
 	
 	/**
@@ -41,9 +49,11 @@ public class Client
 	
 	public Facture createFacture(int montant)
 	{
-		return null;
+		Facture facture = new Facture(montant);
+		factures.add(facture);
+		return facture;
 	}
-	
+
 	/**
 	 * Retourne une copie de la liste des factures du client. 
 	 * @return une copie de la liste des factures du client.
@@ -51,9 +61,9 @@ public class Client
 
 	public List<Facture> getFactures()
 	{
-		return null;
+		return new ArrayList<>(factures);
 	}
-	
+
 	/**
 	 * Retourne la somme des montants des factures.
 	 * @return la somme des montants des factures.
@@ -61,7 +71,11 @@ public class Client
 	
 	public int sommeMontants()
 	{
-		return 0;
+		int somme = 0;
+		for (Facture facture : factures) {
+			somme += facture.getMontant();
+		}
+		return somme;
 	}
 
 	/**
@@ -73,9 +87,11 @@ public class Client
 	
 	public Facture createFacture(int montant, boolean reglee)
 	{
-		return null;
-	}	
-	
+		Facture facture = new Facture(montant, reglee);
+		factures.add(facture);
+		return facture;
+	}
+
 	/**
 	 * Retourne la liste des factures reglées. 
 	 * @return la liste des factures reglées.
@@ -83,9 +99,14 @@ public class Client
 
 	public List<Facture> facturesReglees()
 	{
-		return null;
+		List<Facture> facturesReglees = new ArrayList<>();
+		for (Facture facture : factures) {
+			if (facture.isReglee()) {
+				facturesReglees.add(facture);
+			}
+		}
+		return facturesReglees;
 	}
-	
 
 	/**
 	 * Retourne tous les clients créés.
@@ -93,14 +114,15 @@ public class Client
 	 */
 	public static List<Client> tous()
 	{
-		return null;
+		return new ArrayList<>(clients);
 	}
-	
+
 	/**
 	 * Supprime le client.
 	 */
 	
 	public void delete()
 	{
+		clients.remove(this);
 	}
 }
